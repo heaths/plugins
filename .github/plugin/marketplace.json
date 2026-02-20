@@ -1,0 +1,23 @@
+{
+  "name": "heaths-plugins",
+  "owner": {
+    "name": "Heath Stewart"
+  },
+  "metadata": {
+    "description": "Collection of agents, skills, and tools used in personal projects",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "linting",
+      "description": "Skills and tools for formatting and linting",
+      "version": "0.1.0",
+      "category": "development",
+      "source": "plugins/linting",
+      "skills": [
+        "./skills/cspell",
+        "./skills/markdownlint"
+      ]
+    }
+  ]
+}
