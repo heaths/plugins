@@ -5,9 +5,16 @@
   },
   "metadata": {
     "description": "Collection of agents, skills, and tools used in personal projects",
-    "version": "0.1.1"
+    "version": "0.2.0"
   },
   "plugins": [
+    {
+      "name": "azure-sdk",
+      "description": "Skills and tools to develop with the Azure SDK",
+      "version": "0.1.0",
+      "category": "development",
+      "source": "plugins/azure-sdk"
+    },
     {
       "name": "linting",
       "description": "Skills and tools for formatting and linting",
