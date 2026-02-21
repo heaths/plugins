@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "AzureSdk.SamplesMcp": {
+    "azsdk-samples": {
       "type": "stdio",
       "command": "dnx",
       "args": [
