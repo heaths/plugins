@@ -4,7 +4,7 @@
       "type": "stdio",
       "command": "dnx",
       "args": [
-        "AzureSdk.SamplesMcp@0.3.0-preview.1",
+        "AzureSdk.SamplesMcp@0.4.0-preview.1",
         "--yes"
       ],
       "tools": ["*"]
