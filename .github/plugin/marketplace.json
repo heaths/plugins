@@ -18,7 +18,7 @@
     {
       "name": "linting",
       "description": "Skills and tools for formatting and linting",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "category": "development",
       "source": "plugins/linting",
       "skills": [
