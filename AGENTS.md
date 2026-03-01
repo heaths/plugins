@@ -38,6 +38,12 @@ Before committing, verify:
 2. If a plugin was added or removed from the marketplace, the marketplace `metadata.version` has been bumped accordingly (minor for additions, major for removals).
 3. Otherwise, if any plugin version was bumped, the marketplace `metadata.version` patch version has been incremented.
 
+## Commits and pull requests
+
+Commit messages and pull request titles should be a brief, human-readable summary of the change. Do not use conventional commit prefixes like `feat:`, `fix:`, `chore():`, etc.
+
+The commit or pull request body should provide additional context when the title alone is not sufficient to explain the change.
+
 ## Conventions
 
 - Skill names in YAML frontmatter must match their directory name exactly.
