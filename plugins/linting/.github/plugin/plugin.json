@@ -5,6 +5,8 @@
   "author": {
     "name": "Heath Stewart"
   },
+  "category": "development",
+  "keywords": ["cspell", "lint", "markdown", "markdownlint", "spelling"],
   "skills": [
     "./skills/check-spelling",
     "./skills/lint-markdown"

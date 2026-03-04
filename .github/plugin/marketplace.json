@@ -5,21 +5,32 @@
   },
   "metadata": {
     "description": "Collection of agents, skills, and tools used in personal projects",
-    "version": "1.0.0"
+    "version": "0.4.0"
   },
   "plugins": [
     {
       "name": "azsdk-samples-mcp",
-      "source": "github",
-      "repository": "heaths/azsdk-samples-mcp",
+      "source": {
+        "source": "github",
+        "repo": "heaths/azsdk-samples-mcp"
+      },
+      "repository": "https://github.com/heaths/azsdk-samples-mcp",
       "description": "Discovers and retrieves code samples from Azure SDK packages in .NET, Node.js, and Rust projects.",
-      "version": "0.4.0"
+      "version": "0.4.0",
+      "author": {
+        "name": "Heath Stewart",
+        "url": "https://github.com/heaths"
+      },
+      "license": "MIT",
+      "keywords": ["azure", "mcp", "samples", "sdk"]
     },
     {
       "name": "linting",
       "source": "plugins/linting",
       "description": "Skills and tools for formatting and linting",
-      "version": "0.2.1"
+      "version": "0.2.1",
+      "category": "development",
+      "keywords": ["cspell", "lint", "markdown", "markdownlint", "spelling"]
     }
   ]
 }
