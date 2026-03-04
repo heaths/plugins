@@ -5,14 +5,15 @@
   },
   "metadata": {
     "description": "Collection of agents, skills, and tools used in personal projects",
-    "version": "0.4.0"
+    "version": "1.0.0"
   },
   "plugins": [
     {
-      "name": "azure-sdk",
-      "source": "plugins/azure-sdk",
-      "description": "Skills and tools to develop with the Azure SDK",
-      "version": "0.1.1"
+      "name": "azsdk-samples-mcp",
+      "source": "github",
+      "repository": "heaths/azsdk-samples-mcp",
+      "description": "Discovers and retrieves code samples from Azure SDK packages in .NET, Node.js, and Rust projects.",
+      "version": "0.4.0"
     },
     {
       "name": "linting",

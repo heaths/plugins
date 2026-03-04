@@ -10,13 +10,12 @@ copilot plugin marketplace add heaths/plugins
 
 ## Plugins
 
-### azure-sdk
+### azsdk-samples-mcp
 
-Skills and tools to develop with the Azure SDK.
-Provides an MCP server for discovering Azure SDK dependencies and finding code samples and documentation for Azure SDK libraries.
+Discovers and retrieves code samples from Azure SDK packages in .NET, Node.js, and Rust projects.
 
 ```bash
-copilot plugin install azure-sdk@heaths-plugins
+copilot plugin install azsdk-samples-mcp@heaths-plugins
 ```
 
 ### linting
