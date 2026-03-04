@@ -6,13 +6,14 @@ This is a GitHub Copilot CLI plugin marketplace. The marketplace is defined in `
 
 ### Key files
 
-- `.github/plugin/marketplace.json` — marketplace manifest listing all plugins with their versions, sources, and skill/tool paths.
+- `.github/plugin/marketplace.json` — marketplace manifest listing all plugins with their versions and sources.
+- `plugins/<name>/.github/plugin/plugin.json` — per-plugin details including name, description, version, author, and skills.
 - `plugins/<name>/skills/<skill-name>/SKILL.md` — skill definition with YAML frontmatter (`name`, `description`, `compatibility`) and markdown instructions.
 - `plugins/<name>/.mcp.json` — MCP server configuration for a plugin.
 
 ### Skill paths
 
-Skill paths in `marketplace.json` are relative to the plugin `source` directory (e.g., `"./skills/check-spelling"` resolves from `plugins/linting/`).
+Skill paths in `plugin.json` are relative to the plugin directory (e.g., `"./skills/check-spelling"` resolves from `plugins/linting/`).
 
 ## Versioning
 
@@ -34,7 +35,7 @@ The marketplace and each plugin have independent semver versions in `marketplace
 
 Before committing, verify:
 
-1. If any files under `plugins/<name>/` changed, that plugin's `version` in `marketplace.json` has been bumped following semver rules above.
+1. If any files under `plugins/<name>/` changed, that plugin's `version` in both `marketplace.json` and `plugins/<name>/.github/plugin/plugin.json` has been bumped following semver rules above.
 2. If a plugin was added or removed from the marketplace, the marketplace `metadata.version` has been bumped accordingly (minor for additions, major for removals).
 3. Otherwise, if any plugin version was bumped, the marketplace `metadata.version` patch version has been incremented.
 

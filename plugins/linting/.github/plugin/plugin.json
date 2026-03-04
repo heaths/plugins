@@ -1,0 +1,12 @@
+{
+  "name": "linting",
+  "description": "Skills and tools for formatting and linting",
+  "version": "0.2.1",
+  "author": {
+    "name": "Heath Stewart"
+  },
+  "skills": [
+    "./skills/check-spelling",
+    "./skills/lint-markdown"
+  ]
+}
