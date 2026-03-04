@@ -28,9 +28,7 @@
       "name": "linting",
       "source": "plugins/linting",
       "description": "Skills and tools for formatting and linting",
-      "version": "0.2.1",
-      "category": "development",
-      "keywords": ["cspell", "lint", "markdown", "markdownlint", "spelling"]
+      "version": "0.2.1"
     }
   ]
 }

@@ -40,7 +40,7 @@ The marketplace and each plugin have independent semver versions in `marketplace
 Plugins that live in this repository (`source` is a local path like `"plugins/<name>"`) should include the following fields in both `marketplace.json` and their `plugins/<name>/.github/plugin/plugin.json`:
 
 - `name`, `description`, `version`, `author` — required everywhere
-- `category`, `keywords` — include in both `marketplace.json` and `plugin.json` for discoverability
+- `category`, `keywords` — include in `plugin.json` for discoverability
 
 ### Remote plugins
 
@@ -49,7 +49,7 @@ Plugins sourced from an external GitHub repository (`source` is an object with `
 - `name`, `description`, `version` — basic identity
 - `source` — object with `"source": "github"` and `"repo": "<owner>/<repo>"`
 - `repository` — full URL to the repository (e.g., `"https://github.com/<owner>/<repo>"`)
-- `author`, `license`, `keywords` — copy from the remote plugin's `.github/plugin/plugin.json` for discoverability
+- `author`, `license`, `category`, `keywords` — copy from the remote plugin's `.github/plugin/plugin.json` for discoverability
 
 The remote repository owns its own `plugin.json`; do not duplicate skill or MCP server definitions locally.
 
