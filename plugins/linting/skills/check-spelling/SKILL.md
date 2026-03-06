@@ -45,11 +45,26 @@ Run `npx cspell lint [options] [globs...]` to check a list of file globs or `.` 
 
 ## Fix spelling
 
-Show a summary of the misspelling to the user. Prompt the user for which words should be replaced with another word. All other words should be added to the `words` array of the configuration file according to the schema.
+Show a summary of the misspelling to the user. Prompt the user for which words should be replaced with another word. All remaining words should be added to the dictionary using the steps below.
 
-If any misspellings are only in files that match any `filename` globs in an optional `overrides` section, add those words to the `words` array  in that override according to the schema.
+### Choosing the correct configuration file for dictionary words
 
-Seldom used words can be ignored within the file they are used by adding a appropriate comment e.g.:
+A project may have multiple cspell configuration files at different directory levels. When adding a word to the `words` array, select the configuration file as follows:
+
+1. For each file that contains the misspelling, find the nearest cspell configuration file by searching from that file's directory upward through ancestor directories to the repository root.
+2. If all files resolve to the same configuration file, add the word there.
+3. If files resolve to different configuration files, find the nearest common ancestor directory of those files. Search from that ancestor directory upward for an existing cspell configuration file and add the word there.
+4. If no ancestor configuration file exists above the common ancestor directory, add the word to the root configuration file.
+
+This prevents the same word from being duplicated across multiple configuration files.
+
+### Overrides
+
+If any misspellings are only in files that match any `filename` globs in an optional `overrides` section of the chosen configuration file, add those words to the `words` array in that override according to the schema.
+
+### Inline ignores
+
+Seldom used words can be ignored within the file they are used by adding an appropriate comment e.g.:
 
 ```js
 // cspell:ignore <word>
