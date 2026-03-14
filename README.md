@@ -22,15 +22,23 @@ To install this marketplace into [Claude Code] run:
 
 ## Sharing with contributors
 
-You can recommend this marketplace and its plugins to everyone who works in a repository by committing a `.claude/settings.json` file to that repository. Contributors whose [Claude Code] session picks up the file will automatically have the marketplace registered and can install plugins from it.
+You can recommend this marketplace and its plugins to everyone who works in a repository by committing a `.claude/settings.json` file to that repository. When contributors trust the project folder in [Claude Code], they are prompted to install the marketplace and any enabled plugins.
 
 Example `.claude/settings.json`:
 
 ```json
 {
-  "plugins": [
-    "linting@heaths-plugins"
-  ]
+  "extraKnownMarketplaces": {
+    "heaths-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "heaths/plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "linting@heaths-plugins": true
+  }
 }
 ```
 
