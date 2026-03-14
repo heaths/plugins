@@ -1,7 +1,7 @@
 {
   "name": "linting",
   "description": "Skills and tools for formatting and linting",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "author": {
     "name": "Heath Stewart"
   },
