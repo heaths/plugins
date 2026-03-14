@@ -1,11 +1,12 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "heaths-plugins",
+  "description": "Collection of agents, skills, and tools used in personal projects",
   "owner": {
     "name": "Heath Stewart"
   },
   "metadata": {
-    "description": "Collection of agents, skills, and tools used in personal projects",
-    "version": "0.4.2"
+    "version": "0.4.3"
   },
   "plugins": [
     {
@@ -28,7 +29,7 @@
       "name": "linting",
       "source": "plugins/linting",
       "description": "Skills and tools for formatting and linting",
-      "version": "0.2.3"
+      "version": "0.2.4"
     }
   ]
 }
