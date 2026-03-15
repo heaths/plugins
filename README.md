@@ -3,6 +3,11 @@
 ## Installation
 
 Plugins are compatible with both [GitHub Copilot CLI] and [Claude Code].
+Within the coding assistants, you can run the same commands with `/plugin` instead of the `plugin` CLI command e.g.,
+
+```text
+/plugin marketplace add heaths/plugins
+```
 
 ### GitHub Copilot CLI
 
@@ -16,8 +21,8 @@ copilot plugin marketplace add heaths/plugins
 
 To install this marketplace into [Claude Code] run:
 
-```text
-/plugin marketplace add heaths/plugins
+```bash
+claude plugin marketplace add heaths/plugins
 ```
 
 ## Sharing with contributors
@@ -55,9 +60,9 @@ Discovers and retrieves code samples from Azure SDK packages in .NET, Node.js, a
 copilot plugin install azsdk-samples-mcp@heaths-plugins
 ```
 
-```text
+```bash
 # Claude Code
-/plugin install azsdk-samples-mcp@heaths-plugins
+claude plugin install azsdk-samples-mcp@heaths-plugins
 ```
 
 ### linting
@@ -74,9 +79,9 @@ Skills and tools for formatting and linting.
 copilot plugin install linting@heaths-plugins
 ```
 
-```text
+```bash
 # Claude Code
-/plugin install linting@heaths-plugins
+claude plugin install linting@heaths-plugins
 ```
 
 ## License
