@@ -6,7 +6,7 @@
     "name": "Heath Stewart"
   },
   "metadata": {
-    "version": "0.4.3"
+    "version": "0.4.4"
   },
   "plugins": [
     {
@@ -27,7 +27,7 @@
     },
     {
       "name": "linting",
-      "source": "plugins/linting",
+      "source": "./plugins/linting",
       "description": "Skills and tools for formatting and linting",
       "version": "0.2.4"
     }
