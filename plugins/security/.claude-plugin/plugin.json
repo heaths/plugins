@@ -1,0 +1,17 @@
+{
+  "name": "security",
+  "description": "Skills and tools for supply chain security",
+  "version": "0.1.0",
+  "author": {
+    "name": "Heath Stewart"
+  },
+  "category": "security",
+  "keywords": [
+    "github-actions",
+    "pin",
+    "security"
+  ],
+  "skills": [
+    "./skills/pin-github-actions"
+  ]
+}

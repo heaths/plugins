@@ -6,7 +6,7 @@
     "name": "Heath Stewart"
   },
   "metadata": {
-    "version": "0.4.4"
+    "version": "0.5.0"
   },
   "plugins": [
     {
@@ -29,7 +29,13 @@
       "name": "linting",
       "source": "./plugins/linting",
       "description": "Skills and tools for formatting and linting",
-      "version": "0.2.4"
+      "version": "0.2.5"
+    },
+    {
+      "name": "security",
+      "source": "./plugins/security",
+      "description": "Skills and tools for supply chain security",
+      "version": "0.1.0"
     }
   ]
 }

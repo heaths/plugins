@@ -33,16 +33,36 @@ If not already present, add a `globs` array with file patterns to lint (e.g., `[
 
 ## Check Markdown
 
-Run `npx markdownlint-cli2` to lint Markdown files according to the configuration.
+By default, check only markdown files changed since the last commit:
+
+```bash
+npx markdownlint-cli2 --no-globs $(git diff --name-only --diff-filter=d HEAD -- '*.md' '*.markdown')
+```
+
+`--no-globs` prevents falling back to config globs when no files match.
+
+To check all files (when explicitly asked):
+
+```bash
+npx markdownlint-cli2
+```
 
 ## Fix issues
 
-Run with the `--fix` flag to automatically fix supported issues:
+By default, fix only markdown files changed since the last commit:
+
+```bash
+npx markdownlint-cli2 --no-globs --fix $(git diff --name-only --diff-filter=d HEAD -- '*.md' '*.markdown')
+```
+
+To fix all files (when explicitly asked):
 
 ```bash
 npx markdownlint-cli2 --fix
 ```
 
+Unfixable issues: show the output to the user and ask what to do.
+
 ## Testing
 
-Run the same lint command again to verify all issues are fixed. There should be no errors reported.
+Run the same check command again to verify all issues are fixed. There should be no errors reported.

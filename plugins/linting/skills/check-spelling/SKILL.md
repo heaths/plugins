@@ -41,9 +41,27 @@ When running any cspell command, pass `--config <path>` with the path to the con
 
 ## Check spelling
 
-Run `npx cspell lint [options] [globs...]` to check a list of file globs or `.` for the directory tree.
+By default, check only files changed since the last commit:
+
+```bash
+git diff --name-only --diff-filter=d HEAD | npx cspell lint --config <path> --file-list stdin
+```
+
+To check all files (when explicitly asked):
+
+```bash
+npx cspell lint --config <path> [globs...]
+```
 
 ## Fix spelling
+
+By default, fix only files changed since the last commit:
+
+```bash
+git diff --name-only --diff-filter=d HEAD | npx cspell lint --config <path> --fix --file-list stdin
+```
+
+To fix all files (when explicitly asked), replace `--file-list stdin` with file globs or `.`.
 
 Show a summary of the misspelling to the user. Prompt the user for which words should be replaced with another word. All remaining words should be added to the dictionary using the steps below.
 
@@ -72,4 +90,4 @@ Seldom used words can be ignored within the file they are used by adding an appr
 
 ## Testing
 
-Run the same command again used to check spelling. All misspellings should be fixed.
+Run the same check command again to verify all misspellings are fixed. There should be no errors reported.
