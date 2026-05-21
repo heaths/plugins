@@ -2,70 +2,60 @@
 
 ## Architecture
 
-This is a plugin marketplace compatible with [GitHub Copilot CLI] and [Claude Code]. The marketplace is defined in `.claude-plugin/marketplace.json` and contains multiple plugins, each under `plugins/<name>/`. Plugins can declare skills (prompt-based capabilities in `SKILL.md` files) and MCP servers (in `.mcp.json` files).
+Plugin marketplace for [GitHub Copilot CLI] and [Claude Code]. Defined in `.claude-plugin/marketplace.json`; each plugin lives under `plugins/<name>/`.
 
-### Key files
-
-- `.claude-plugin/marketplace.json` — marketplace manifest listing all plugins with their versions and sources.
-- `plugins/<name>/.claude-plugin/plugin.json` — per-plugin details including name, description, version, author, and skills.
-- `plugins/<name>/skills/<skill-name>/SKILL.md` — skill definition with YAML frontmatter (`name`, `description`, `compatibility`) and markdown instructions.
-- `plugins/<name>/.mcp.json` — MCP server configuration for a plugin.
-
-### Skill paths
+| File | Purpose |
+| --- | --- |
+| `.claude-plugin/marketplace.json` | Marketplace manifest with plugin versions and sources |
+| `plugins/<name>/.claude-plugin/plugin.json` | Plugin details: name, description, version, author, skills |
+| `plugins/<name>/skills/<skill-name>/SKILL.md` | Skill — YAML frontmatter (`name`, `description`, `compatibility`) + instructions |
+| `plugins/<name>/.mcp.json` | MCP server configuration |
 
 Skill paths in `plugin.json` are relative to the plugin directory (e.g., `"./skills/check-spelling"` resolves from `plugins/linting/`).
 
 ## Versioning
 
-The marketplace and each plugin have independent semver versions in `marketplace.json`. When making changes:
+Plugin and marketplace versions are independent semver values in `marketplace.json`.
 
-### Plugin versions
+**Plugin version** — bump based on the most significant change:
 
-- Bump the **patch** version for bug fixes or documentation changes to existing skills, MCP servers, or other plugin files.
-- Bump the **minor** version (and reset patch to 0) when adding new skills, MCP servers, or tools to a plugin.
-- Bump the **major** version (and reset minor and patch to 0) when removing or renaming skills, MCP servers, or tools.
+| Change | Bump |
+| --- | --- |
+| Bug fix or docs update | patch |
+| Add skill, MCP server, or tool | minor (reset patch) |
+| Remove or rename skill, MCP server, or tool | major (reset minor + patch) |
 
-### Marketplace version
+**Marketplace version** — bump based on the most significant change:
 
-- Bump the **patch** version when any plugin version is bumped.
-- Bump the **minor** version (and reset patch to 0) when a plugin is added to the marketplace.
-- Bump the **major** version (and reset minor and patch to 0) when a plugin is removed from the marketplace.
-
-> **Note:** For 0.x.y releases (before 1.0.0), a minor version bump is semantically equivalent to a major version bump. Use a minor bump for removals instead of bumping to 1.0.0.
+| Change | Bump |
+| --- | --- |
+| Any plugin version bumped | patch |
+| Plugin added | minor (reset patch) |
+| Plugin removed | minor if 0.x.y; major once ≥ 1.0.0 (reset minor + patch) |
 
 ## Plugin metadata
 
-### In-repository plugins
+**In-repository** (`source` is a local path): both `marketplace.json` and `plugin.json` require `name`, `description`, `version`, `author`; `plugin.json` also needs `category`, `keywords`.
 
-Plugins that live in this repository (`source` is a local path like `"plugins/<name>"`) should include the following fields in both `marketplace.json` and their `plugins/<name>/.claude-plugin/plugin.json`:
+**Remote** (`source.source == "github"`): `marketplace.json` requires `name`, `description`, `version`, `source` (`{source: "github", repo: "<owner>/<repo>"}`), `repository`, `author`, `license`, `category`, `keywords`. Do not duplicate skill or MCP server definitions locally.
 
-- `name`, `description`, `version`, `author` — required everywhere
-- `category`, `keywords` — include in `plugin.json` for discoverability
+## README maintenance
 
-### Remote plugins
+Keep the `README.md` **Plugins** section in sync with the marketplace:
 
-Plugins sourced from an external GitHub repository (`source` is an object with `"source": "github"`) should include the following fields in `marketplace.json`:
-
-- `name`, `description`, `version` — basic identity
-- `source` — object with `"source": "github"` and `"repo": "<owner>/<repo>"`
-- `repository` — full URL to the repository (e.g., `"https://github.com/<owner>/<repo>"`)
-- `author`, `license`, `category`, `keywords` — copy from the remote plugin's `.claude-plugin/plugin.json` for discoverability
-
-The remote repository owns its own `plugin.json`; do not duplicate skill or MCP server definitions locally.
+1. **Add** a `### <plugin-name>` subsection (alphabetical) with description, skills table, and install commands for both CLIs.
+2. **Remove** the subsection when a plugin is deleted from the marketplace.
+3. **Update** description, skill names, and skill descriptions when they change in `plugin.json` or `SKILL.md` frontmatter.
 
 ## Pre-commit checklist
 
-Before committing, verify:
-
-1. If any files under `plugins/<name>/` changed, that plugin's `version` in both `marketplace.json` and `plugins/<name>/.claude-plugin/plugin.json` has been bumped following semver rules above.
-2. If a plugin was added or removed from the marketplace, the marketplace `metadata.version` has been bumped accordingly (minor for additions, minor for removals if still 0.x.y, or major for removals once 1.0.0 or later).
-3. Otherwise, if any plugin version was bumped, the marketplace `metadata.version` patch version has been incremented.
+1. Plugin files changed → bump plugin `version` in both `marketplace.json` and `plugin.json`.
+2. Plugin added or removed → bump marketplace `metadata.version` (minor for add; minor if 0.x.y or major otherwise for remove).
+3. Only plugin version bumped → increment marketplace `metadata.version` patch.
 
 ## Commits and pull requests
 
-Commit messages and pull request titles should be a brief, human-readable summary of the change. Do not use conventional commit prefixes like `feat:`, `fix:`, `chore():`, etc.
-
-The commit or pull request body should provide additional context when the title alone is not sufficient to explain the change.
+Use a brief, human-readable title — no conventional prefixes (`feat:`, `fix:`, `chore:`, etc.). Add a body when the title alone isn't sufficient.
 
 ## Conventions
 

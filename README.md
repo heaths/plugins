@@ -84,6 +84,24 @@ copilot plugin install linting@heaths-plugins
 claude plugin install linting@heaths-plugins
 ```
 
+### security
+
+Skills and tools for supply chain security.
+
+| Skill | Description |
+| --- | --- |
+| pin-github-actions | Run when adding or updating GitHub Actions workflow steps. Pin every action to a commit SHA with the resolved version tag as a trailing comment |
+
+```bash
+# GitHub Copilot CLI
+copilot plugin install security@heaths-plugins
+```
+
+```bash
+# Claude Code
+claude plugin install security@heaths-plugins
+```
+
 ## License
 
 Licensed under the [MIT](LICENSE.txt) license.
