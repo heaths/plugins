@@ -1,0 +1,9 @@
+paths:
+  evals: evals
+
+suites:
+  pr:
+    description: Run all plugin skill evals for pull requests
+    evals:
+      - evals/linting/eval.yaml
+      - evals/security/eval.yaml

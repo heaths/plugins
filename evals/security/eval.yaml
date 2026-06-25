@@ -1,0 +1,35 @@
+name: security skills evals
+version: 1
+description: Evaluates the security plugin skills against representative workflow hardening tasks
+
+defaults:
+  runs: 1
+  timeout: 5m
+
+stimuli:
+  - name: pin-github-actions-to-shas
+    prompt: |
+      Use the pin-github-actions skill to update .github/workflows/ci.yml.
+      Pin each versioned GitHub Action to a commit SHA and append the resolved version tag as a trailing comment.
+    environment:
+      skills:
+        - ../../plugins/security/skills/pin-github-actions
+      files:
+        - src: ./fixtures/pin-github-actions/workflow.yml
+          dest: .github/workflows/ci.yml
+    constraints:
+      expect_skills:
+        - pin-github-actions
+    graders:
+      - type: file-matches
+        config:
+          path: .github/workflows/ci.yml
+          pattern: '(?m)actions/checkout@[0-9a-f]{40} # v[0-9]+\\.[0-9]+\\.[0-9]+'
+      - type: file-matches
+        config:
+          path: .github/workflows/ci.yml
+          pattern: '(?m)actions/setup-node@[0-9a-f]{40} # v[0-9]+\\.[0-9]+\\.[0-9]+'
+      - type: file-not-matches
+        config:
+          path: .github/workflows/ci.yml
+          pattern: '(?m)uses:\\s+[^\\n]+@v[0-9]+'

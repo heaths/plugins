@@ -1,0 +1,62 @@
+name: linting skills evals
+version: 1
+description: Evaluates the linting plugin skills against representative file fixes
+
+defaults:
+  runs: 1
+  timeout: 5m
+
+stimuli:
+  - name: check-spelling-fixes-typos-and-updates-dictionary
+    prompt: |
+      Use the check-spelling skill to fix spelling issues in changed files.
+      Ensure the obvious typo "teh" is corrected to "the" in docs/spelling.md.
+      Create cspell.json in the repository root and add "copilotcliword" under words so it is treated as a valid project term.
+    environment:
+      skills:
+        - ../../plugins/linting/skills/check-spelling
+      files:
+        - src: ./fixtures/check-spelling/input.md
+          dest: docs/spelling.md
+    constraints:
+      expect_skills:
+        - check-spelling
+    graders:
+      - type: file-exists
+        config:
+          path: cspell.json
+      - type: file-matches
+        config:
+          path: cspell.json
+          pattern: '"words"\\s*:\\s*\\[[^\\]]*"copilotcliword"'
+      - type: file-not-matches
+        config:
+          path: docs/spelling.md
+          pattern: '(?i)\\bteh\\b'
+      - type: file-matches
+        config:
+          path: docs/spelling.md
+          pattern: '(?i)\\bthe\\b'
+
+  - name: lint-markdown-fixes-bullet-style
+    prompt: |
+      Use the lint-markdown skill to fix markdownlint issues in changed markdown files.
+      In docs/bullets.md, fix lint issues caused by inconsistent bullet characters.
+    environment:
+      skills:
+        - ../../plugins/linting/skills/lint-markdown
+      files:
+        - src: ./fixtures/lint-markdown/input.md
+          dest: docs/bullets.md
+    constraints:
+      expect_skills:
+        - lint-markdown
+    graders:
+      - type: file-not-matches
+        config:
+          path: docs/bullets.md
+          pattern: '(?m)^\\* '
+      - type: file-matches
+        config:
+          path: docs/bullets.md
+          pattern: '(?m)^- '
