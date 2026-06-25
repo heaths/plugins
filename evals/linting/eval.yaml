@@ -22,11 +22,11 @@ stimuli:
     graders:
       - type: file-exists
         config:
-          path: cspell.json
+          path: .cspell.json
       - type: file-matches
         config:
-          path: cspell.json
-          pattern: '"words"\\s*:\\s*\\[[^\\]]*"copilotcliword"'
+          path: .cspell.json
+          pattern: 'copilotcliword'
       - type: file-not-matches
         config:
           path: docs/spelling.md
@@ -34,7 +34,7 @@ stimuli:
       - type: file-matches
         config:
           path: docs/spelling.md
-          pattern: '(?i)\\bthe\\b'
+          pattern: 'contains the typo that should be corrected[.]'
 
   - name: lint-markdown-fixes-bullet-style
     prompt: |
@@ -56,4 +56,8 @@ stimuli:
       - type: file-matches
         config:
           path: docs/bullets.md
-          pattern: '(?m)^- '
+          pattern: '(?m)^- first item$'
+      - type: file-matches
+        config:
+          path: docs/bullets.md
+          pattern: '(?m)^- second item that uses the wrong bullet style$'

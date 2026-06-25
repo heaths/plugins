@@ -23,11 +23,11 @@ stimuli:
       - type: file-matches
         config:
           path: .github/workflows/ci.yml
-          pattern: '(?m)actions/checkout@[0-9a-f]{40} # v[0-9]+\\.[0-9]+\\.[0-9]+'
+          pattern: '(?m)^ *- uses: actions/checkout@[0-9a-f]{40} # v[0-9]+[.][0-9]+[.][0-9]+$'
       - type: file-matches
         config:
           path: .github/workflows/ci.yml
-          pattern: '(?m)actions/setup-node@[0-9a-f]{40} # v[0-9]+\\.[0-9]+\\.[0-9]+'
+          pattern: '(?m)^ *- uses: actions/setup-node@[0-9a-f]{40} # v[0-9]+[.][0-9]+[.][0-9]+$'
       - type: file-not-matches
         config:
           path: .github/workflows/ci.yml
