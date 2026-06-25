@@ -63,6 +63,8 @@ Use a brief, human-readable title — no conventional prefixes (`feat:`, `fix:`,
 - SKILL.md frontmatter fields should not end with a trailing period.
 - Line endings are LF (enforced by `.gitattributes` and `.editorconfig`).
 - JSON files use 2-space indentation.
+- Scripts defined by skills must be written in Python.
+- Each plugin maintains a single venv for all its skills at `plugins/<name>/.venv`. Skills must instruct the agent to create it with `python -m venv <plugin-dir>/.venv`, install dependencies from the skill's `requirements.txt`, and invoke scripts via `<plugin-dir>/.venv/bin/python`.
 
 [GitHub Copilot CLI]: https://github.com/features/copilot/cli/
 [Claude Code]: https://claude.ai/code
