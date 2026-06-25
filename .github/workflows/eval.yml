@@ -12,10 +12,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install tools
-        run: |
-          npm install -g @microsoft/vally-cli@0.6.0
-          npm install -g @github/copilot@1.0.65
+      - name: Install vally
+        run: npm install -g @microsoft/vally-cli@0.6.0
+
+      - name: Install copilot CLI
+        run: npm install -g @github/copilot@1.0.65
 
       - name: Lint eval specs
         run: vally lint --eval-spec evals
