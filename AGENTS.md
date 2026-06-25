@@ -9,7 +9,18 @@ Plugin marketplace for [GitHub Copilot CLI] and [Claude Code]. Defined in `.clau
 | `.claude-plugin/marketplace.json` | Marketplace manifest with plugin versions and sources |
 | `plugins/<name>/.claude-plugin/plugin.json` | Plugin details: name, description, version, author, skills |
 | `plugins/<name>/skills/<skill-name>/SKILL.md` | Skill — YAML frontmatter (`name`, `description`, `compatibility`) + instructions |
+| `plugins/<name>/skills/<skill-name>/scripts/` | Python scripts and `requirements.txt` for the skill |
 | `plugins/<name>/.mcp.json` | MCP server configuration |
+
+Each skill folder follows the [Agent Skills](https://agentskills.io) layout:
+
+```
+<skill-name>/
+├── SKILL.md       # required: metadata + instructions
+├── scripts/       # Python scripts + requirements.txt
+├── references/    # optional documentation
+└── assets/        # optional templates/resources
+```
 
 Skill paths in `plugin.json` are relative to the plugin directory (e.g., `"./skills/check-spelling"` resolves from `plugins/linting/`).
 
@@ -63,8 +74,8 @@ Use a brief, human-readable title — no conventional prefixes (`feat:`, `fix:`,
 - SKILL.md frontmatter fields should not end with a trailing period.
 - Line endings are LF (enforced by `.gitattributes` and `.editorconfig`).
 - JSON files use 2-space indentation.
-- Scripts defined by skills must be written in Python.
-- Each plugin maintains a single venv for all its skills at `plugins/<name>/.venv`. Skills must instruct the agent to create it with `python -m venv <plugin-dir>/.venv`, install dependencies from the skill's `requirements.txt`, and invoke scripts via `<plugin-dir>/.venv/bin/python`.
+- Scripts defined by skills must be written in Python and placed in the skill's `scripts/` subdirectory alongside a `requirements.txt`.
+- Each plugin maintains a single venv for all its skills at `plugins/<name>/.venv`. Skills must instruct the agent to create it with `python -m venv <plugin-dir>/.venv`, install dependencies from the skill's `scripts/requirements.txt`, and invoke scripts via `<plugin-dir>/.venv/bin/python`.
 
 [GitHub Copilot CLI]: https://github.com/features/copilot/cli/
 [Claude Code]: https://claude.ai/code

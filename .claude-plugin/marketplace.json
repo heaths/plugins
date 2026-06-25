@@ -6,7 +6,7 @@
     "name": "Heath Stewart"
   },
   "metadata": {
-    "version": "0.5.1"
+    "version": "0.5.2"
   },
   "plugins": [
     {
@@ -35,7 +35,7 @@
       "name": "security",
       "source": "./plugins/security",
       "description": "Skills and tools for supply chain security",
-      "version": "0.1.1"
+      "version": "0.1.2"
     }
   ]
 }

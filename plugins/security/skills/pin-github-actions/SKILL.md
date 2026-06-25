@@ -30,7 +30,7 @@ Create the plugin venv once if it does not already exist:
 
 ```bash
 python -m venv <plugin-dir>/.venv
-<plugin-dir>/.venv/bin/pip install -r <skill-dir>/requirements.txt
+<plugin-dir>/.venv/bin/pip install -r <skill-dir>/scripts/requirements.txt
 ```
 
 ## Running
@@ -40,13 +40,13 @@ Run from the root of the repository whose workflows you want to pin.
 Pin all workflows under `.github/workflows/`:
 
 ```bash
-<plugin-dir>/.venv/bin/python <skill-dir>/pin_github_actions.py
+<plugin-dir>/.venv/bin/python <skill-dir>/scripts/pin_github_actions.py
 ```
 
 Pin specific workflow files:
 
 ```bash
-<plugin-dir>/.venv/bin/python <skill-dir>/pin_github_actions.py .github/workflows/ci.yml
+<plugin-dir>/.venv/bin/python <skill-dir>/scripts/pin_github_actions.py .github/workflows/ci.yml
 ```
 
 ## Rules
