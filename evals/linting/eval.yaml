@@ -9,7 +9,7 @@ defaults:
 stimuli:
   - name: check-spelling-fixes-typos-and-updates-dictionary
     prompt: |
-      Use the check-spelling skill to fix spelling issues in changed files.
+      Check spelling in changed files and fix any issues you find.
       Ensure the obvious typo "teh" is corrected to "the" in docs/spelling.md.
       Create cspell.json in the repository root and add "copilotcliword" under words so it is treated as a valid project term.
     environment:
@@ -40,7 +40,7 @@ stimuli:
 
   - name: lint-markdown-fixes-bullet-style
     prompt: |
-      Use the lint-markdown skill to fix markdownlint issues in changed markdown files.
+      Lint changed markdown files and fix markdownlint issues.
       In docs/bullets.md, fix lint issues caused by inconsistent bullet characters.
     environment:
       skills:
