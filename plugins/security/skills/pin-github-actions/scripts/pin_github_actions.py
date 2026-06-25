@@ -9,19 +9,27 @@ processed. Run this script from the root of the repository whose workflows you
 want to update.
 """
 
+import sys
+
+if sys.version_info < (3, 10):
+    sys.exit(
+        f"Python 3.10 or later is required "
+        f"(found {sys.version_info.major}.{sys.version_info.minor})."
+    )
+
 import re
 import subprocess
-import sys
 from pathlib import Path
 
 
 # Matches "uses:" lines including any leading "- " list marker.
 # Groups: (1) prefix, (2) action ref, (3) @ref, (4) trailing comment
+# Anchored to end-of-line to prevent partial matches on unusual refs.
 USES_RE = re.compile(
     r'^([ \t]*(?:-[ \t]+)?uses:[ \t]+)'
     r'([^\s@]+)'
     r'@([0-9a-f]{40}|[^\s#\n]+)'
-    r'([ \t]*(?:#[^\n]*)?)',
+    r'([ \t]*(?:#[^\n]*)?)$',
     re.MULTILINE,
 )
 
@@ -32,13 +40,17 @@ _tag_cache: dict[tuple[str, str, str], str] = {}
 
 
 def _run_ls_remote(repo_url: str, *patterns: str) -> str | None:
-    result = subprocess.run(
-        ["git", "ls-remote", repo_url, *patterns],
-        capture_output=True,
-        text=True,
-        timeout=30,
-    )
-    return result.stdout if result.returncode == 0 else None
+    try:
+        result = subprocess.run(
+            ["git", "ls-remote", repo_url, *patterns],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        return result.stdout if result.returncode == 0 else None
+    except (subprocess.TimeoutExpired, OSError) as e:
+        print(f"  Warning: git ls-remote failed for {repo_url}: {e}", file=sys.stderr)
+        return None
 
 
 def _resolve_tag(repo_url: str, tag: str) -> str | None:
