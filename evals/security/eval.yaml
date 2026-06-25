@@ -9,8 +9,7 @@ defaults:
 stimuli:
   - name: pin-github-actions-to-shas
     prompt: |
-      Update .github/workflows/ci.yml to harden GitHub Actions usage.
-      Pin each versioned GitHub Action to a commit SHA and append the resolved version tag as a trailing comment.
+      Review .github/workflows/ci.yml and harden any insecure GitHub Actions references you find.
     environment:
       skills:
         - ../../plugins/security/skills/pin-github-actions

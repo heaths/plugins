@@ -9,9 +9,7 @@ defaults:
 stimuli:
   - name: check-spelling-fixes-typos-and-updates-dictionary
     prompt: |
-      Check spelling in changed files and fix any issues you find.
-      Ensure the obvious typo "teh" is corrected to "the" in docs/spelling.md.
-      Create cspell.json in the repository root and add "copilotcliword" under words so it is treated as a valid project term.
+      Check spelling in docs/spelling.md and fix any issues you find.
     environment:
       skills:
         - ../../plugins/linting/skills/check-spelling
@@ -40,8 +38,7 @@ stimuli:
 
   - name: lint-markdown-fixes-bullet-style
     prompt: |
-      Lint changed markdown files and fix markdownlint issues.
-      In docs/bullets.md, fix lint issues caused by inconsistent bullet characters.
+      Lint docs/bullets.md and fix any markdown issues you find.
     environment:
       skills:
         - ../../plugins/linting/skills/lint-markdown
