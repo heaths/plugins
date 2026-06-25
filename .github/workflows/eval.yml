@@ -4,10 +4,8 @@ on:
   pull_request:
 
 jobs:
-  run-evals:
+  eval:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
@@ -19,7 +17,7 @@ jobs:
 
       - name: Run evals
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx -y @microsoft/vally-cli@0.6.0 eval --suite pr --output-dir vally-results --junit
 
       - name: Upload eval results
