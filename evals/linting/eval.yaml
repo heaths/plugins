@@ -1,0 +1,63 @@
+name: linting skills evals
+version: 1
+description: Evaluates the linting plugin skills against representative file fixes
+
+defaults:
+  runs: 1
+  timeout: 5m
+
+stimuli:
+  - name: check-spelling-fixes-typos-and-updates-dictionary
+    prompt: |
+      Check spelling in docs/spelling.md and fix any issues you find.
+    environment:
+      skills:
+        - ../../plugins/linting/skills/check-spelling
+      files:
+        - src: ./fixtures/check-spelling/input.md
+          dest: docs/spelling.md
+    constraints:
+      expect_skills:
+        - check-spelling
+    graders:
+      - type: file-exists
+        config:
+          path: .cspell.json
+      - type: file-matches
+        config:
+          path: .cspell.json
+          pattern: 'copilotcliword'
+      - type: file-not-matches
+        config:
+          path: docs/spelling.md
+          pattern: '(?i)\\bteh\\b'
+      - type: file-matches
+        config:
+          path: docs/spelling.md
+          pattern: 'contains the typo that should be corrected[.]'
+
+  - name: lint-markdown-fixes-bullet-style
+    prompt: |
+      Lint docs/bullets.md and fix any markdown issues you find.
+    environment:
+      skills:
+        - ../../plugins/linting/skills/lint-markdown
+      files:
+        - src: ./fixtures/lint-markdown/input.md
+          dest: docs/bullets.md
+    constraints:
+      expect_skills:
+        - lint-markdown
+    graders:
+      - type: file-not-matches
+        config:
+          path: docs/bullets.md
+          pattern: '(?m)^\\* '
+      - type: file-matches
+        config:
+          path: docs/bullets.md
+          pattern: '(?m)^- first item$'
+      - type: file-matches
+        config:
+          path: docs/bullets.md
+          pattern: '(?m)^- second item that uses the wrong bullet style$'
