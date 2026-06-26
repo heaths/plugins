@@ -7,6 +7,7 @@ Plugin marketplace for [GitHub Copilot CLI] and [Claude Code]. Defined in `.clau
 | File | Purpose |
 | --- | --- |
 | `.claude-plugin/marketplace.json` | Marketplace manifest with plugin versions and sources |
+| `.github/skills/<skill-name>/SKILL.md` | Repo-local skill for repository-specific guidance that should not always live in `AGENTS.md` |
 | `plugins/<name>/.claude-plugin/plugin.json` | Plugin details: name, description, version, author, skills |
 | `plugins/<name>/skills/<skill-name>/SKILL.md` | Skill — YAML frontmatter (`name`, `description`, `compatibility`) + instructions |
 | `plugins/<name>/skills/<skill-name>/scripts/` | Python scripts and `requirements.txt` for the skill |
@@ -23,6 +24,7 @@ Each skill folder follows the [Agent Skills](https://agentskills.io) layout:
 ```
 
 Skill paths in `plugin.json` are relative to the plugin directory (e.g., `"./skills/check-spelling"` resolves from `plugins/linting/`).
+Repo-local skills under `.github/skills/` use the same skill-folder layout.
 
 ## Versioning
 
@@ -57,6 +59,12 @@ Keep the `README.md` **Plugins** section in sync with the marketplace:
 1. **Add** a `### <plugin-name>` subsection (alphabetical) with description, skills table, and install commands for both CLIs.
 2. **Remove** the subsection when a plugin is deleted from the marketplace.
 3. **Update** description, skill names, and skill descriptions when they change in `plugin.json` or `SKILL.md` frontmatter.
+
+## Evals
+
+Add or update associated eval coverage under `evals/<plugin-name>/` when adding a new plugin skill or making substantial changes to an existing one.
+
+Use `.github/skills/evaluate-skills/SKILL.md` for eval work: use when creating, updating, or reviewing Vally evals for plugin skills. Covers `eval.yaml`, fixtures, graders, `expect_skills`, suites, tags, and eval coverage for new or changed skills.
 
 ## Pre-commit checklist
 
