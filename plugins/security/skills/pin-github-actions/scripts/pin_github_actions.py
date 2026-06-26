@@ -19,6 +19,7 @@ if sys.version_info < (3, 10):
 
 import re
 import subprocess
+from dataclasses import dataclass, field
 from pathlib import Path
 
 
@@ -37,6 +38,12 @@ SHA_RE = re.compile(r'^[0-9a-f]{40}$')
 
 _sha_cache: dict[tuple[str, str], str | None] = {}
 _tag_cache: dict[tuple[str, str, str], str] = {}
+
+
+@dataclass
+class PinResult:
+    changed: bool = False
+    unresolved: list[str] = field(default_factory=list)
 
 
 def _run_ls_remote(repo_url: str, *patterns: str) -> str | None:
@@ -130,7 +137,7 @@ def find_exact_tag(repo_url: str, ref: str, sha: str) -> str:
     return best
 
 
-def _pin_match(m: re.Match) -> str:
+def _pin_match(path: Path, unresolved: list[str], m: re.Match) -> str:
     """Return a pinned replacement for a single uses: regex match."""
     prefix = m.group(1)
     action = m.group(2)
@@ -148,30 +155,35 @@ def _pin_match(m: re.Match) -> str:
         # Already pinned to a SHA — re-resolve using the version in the comment
         stripped = comment.strip()
         if not stripped.startswith("#"):
-            return m.group(0)  # no version comment; cannot re-resolve
+            unresolved.append(
+                f"{path}: {action}@{ref} is pinned to a SHA but missing a version comment"
+            )
+            return m.group(0)
         version = stripped.lstrip("#").strip()
         new_sha = resolve_to_sha(repo_url, version)
         if not new_sha:
+            unresolved.append(f"{path}: could not re-resolve {action} from comment {version}")
             return m.group(0)
         exact_tag = find_exact_tag(repo_url, version, new_sha)
         return f"{prefix}{action}@{new_sha} # {exact_tag}"
     else:
         sha = resolve_to_sha(repo_url, ref)
         if not sha:
-            print(f"  Warning: could not resolve {action}@{ref}", file=sys.stderr)
+            unresolved.append(f"{path}: could not resolve {action}@{ref}")
             return m.group(0)
         exact_tag = find_exact_tag(repo_url, ref, sha)
         return f"{prefix}{action}@{sha} # {exact_tag}"
 
 
-def pin_workflow(path: Path) -> bool:
-    """Pin all GitHub Actions in a workflow file. Returns True if the file changed."""
+def pin_workflow(path: Path) -> PinResult:
+    """Pin all GitHub Actions in a workflow file."""
     original = path.read_text(encoding="utf-8")
-    updated = USES_RE.sub(_pin_match, original)
+    unresolved: list[str] = []
+    updated = USES_RE.sub(lambda m: _pin_match(path, unresolved, m), original)
     if updated != original:
         path.write_text(updated, encoding="utf-8")
-        return True
-    return False
+        return PinResult(changed=True, unresolved=unresolved)
+    return PinResult(unresolved=unresolved)
 
 
 def main() -> None:
@@ -188,18 +200,28 @@ def main() -> None:
         sys.exit("No workflow files found.")
 
     changed = 0
+    unresolved_count = 0
     for p in paths:
         if not p.exists():
             print(f"Skipping (not found): {p}", file=sys.stderr)
+            unresolved_count += 1
             continue
         print(f"Processing {p} ...", end=" ", flush=True)
-        if pin_workflow(p):
+        result = pin_workflow(p)
+        if result.changed:
             print("updated")
             changed += 1
+        elif result.unresolved:
+            print("needs attention")
         else:
             print("no changes")
+        for warning in result.unresolved:
+            print(f"  Warning: {warning}", file=sys.stderr)
+        unresolved_count += len(result.unresolved)
 
     print(f"\n{changed} file(s) updated.")
+    if unresolved_count:
+        sys.exit(f"{unresolved_count} reference(s) still need manual attention.")
 
 
 if __name__ == "__main__":

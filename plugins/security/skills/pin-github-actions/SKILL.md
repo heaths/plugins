@@ -5,26 +5,15 @@ description: Run when adding or updating GitHub Actions workflow steps. Pin ever
 
 # Pin GitHub Actions
 
-Pin every `uses:` step in a workflow to an exact commit SHA with the resolved version tag
-as a trailing comment so the intent is clear.
+Use the script as the source of truth. Run it first; only fall back to manual reasoning
+if the script fails or reports unresolved references.
 
-**Format:**
+The **skill directory** is the directory containing this SKILL.md file. The
+**plugin directory** is two levels above the skill directory (the parent of `skills/`).
 
-```yaml
-uses: owner/action@<commit-sha> # vX.Y.Z
-```
+## Default flow
 
-**Example:**
-
-```yaml
-- uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-```
-
-## Setup
-
-This skill uses a Python script. The **skill directory** is the directory containing
-this SKILL.md file. The **plugin directory** is two levels above the skill directory
-(the parent of `skills/`).
+Run from the root of the repository whose workflows you want to pin.
 
 Create the plugin venv once if it does not already exist:
 
@@ -33,25 +22,26 @@ python -m venv <plugin-dir>/.venv
 <plugin-dir>/.venv/bin/pip install -r <skill-dir>/scripts/requirements.txt
 ```
 
-## Running
+If `python` is unavailable, retry the same setup command with `python3`.
 
-Run from the root of the repository whose workflows you want to pin.
-
-Pin all workflows under `.github/workflows/`:
-
-```bash
-<plugin-dir>/.venv/bin/python <skill-dir>/scripts/pin_github_actions.py
-```
-
-Pin specific workflow files:
+Prefer passing the specific workflow files you already know about:
 
 ```bash
 <plugin-dir>/.venv/bin/python <skill-dir>/scripts/pin_github_actions.py .github/workflows/ci.yml
 ```
 
+Pin every workflow under `.github/workflows/` only when you need a broader sweep:
+
+```bash
+<plugin-dir>/.venv/bin/python <skill-dir>/scripts/pin_github_actions.py
+```
+
+Do not read `pin_github_actions.py` or `requirements.txt` unless the command fails.
+Do not hand-edit `uses:` lines unless the script cannot complete the change.
+Treat a zero exit status as success.
+
 ## Rules
 
-- Never reference a mutable tag (e.g., `@v4`, `@main`).
-- Never omit the version comment — it is the only human-readable clue to the pinned version.
-- Dependabot keeps SHAs current; do not manually update SHAs unless Dependabot cannot reach the action.
+- Every non-local `uses:` step must end as `owner/action@<40-char-sha> # vX.Y.Z`.
+- Never leave a mutable ref such as `@v4` or `@main`.
 - Internal workflow references (`uses: ./.github/workflows/...`) are exempt and are not modified by the script.
