@@ -10,6 +10,9 @@ Use the [Vally reference docs](https://microsoft.github.io/vally/) for schema an
 This repo keeps evals under `evals/` and currently uses `.vally.yaml` to define the `pr`
 suite from evals tagged with `priority: p0`.
 
+Before running Vally commands in this repo, run `npm i` from the repository root so
+`npx vally` and `npx copilot` use the pinned local versions from `package.json`.
+
 ## Layout
 
 ```text
@@ -26,6 +29,9 @@ evals/
 - Each plugin keeps its eval spec in `evals/<plugin-name>/eval.yaml`.
 - Put sample inputs under `evals/<plugin-name>/fixtures/`.
 - Seed fixture files into the eval environment with `environment.files`.
+- Keep experiment helper scripts in the experiment directory and expose them through
+  an appropriately named root `package.json` script.
+- Write repo experiment helper scripts as ES modules.
 
 ## When to use this skill
 
@@ -55,9 +61,9 @@ Use this skill when the request involves:
 1. Keep `.vally.yaml` in sync if you add new suites or change how evals are grouped.
 2. Use eval `tags` for suite filters such as the current `priority: p0` pull request
    suite.
-3. Lint specs with `npx -y @microsoft/vally-cli@0.6.0 lint --eval-spec evals`.
-4. Run the pull request suite with
-   `COPILOT_GITHUB_TOKEN=... npx -y @microsoft/vally-cli@0.6.0 eval --suite pr --output-dir vally-results --junit`.
+3. Run `npm i` from the repository root before invoking repo CLI tools.
+4. Lint specs with `npx vally lint --eval-spec evals`.
+5. Run the pull request suite with `npx vally eval --suite pr --output-dir vally-results --junit`.
 
 ## Coverage rule
 

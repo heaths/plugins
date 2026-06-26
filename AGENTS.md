@@ -66,6 +66,8 @@ Add or update associated eval coverage under `evals/<plugin-name>/` when adding 
 
 Use `.github/skills/evaluate-skills/SKILL.md` for eval work: use when creating, updating, or reviewing Vally evals for plugin skills. Covers `eval.yaml`, fixtures, graders, `expect_skills`, suites, tags, and eval coverage for new or changed skills.
 
+The repo pins Vally and Copilot CLI versions in the root `package.json`. For repo evals, workflows, and repo-local skill instructions, install them with `npm i` locally or `npm ci` in CI, then invoke them via `npx vally` and `npx copilot` rather than `npx -y` with inline versions.
+
 ## Pre-commit checklist
 
 1. Plugin files changed → bump plugin `version` in both `marketplace.json` and `plugin.json`.
