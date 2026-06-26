@@ -1,0 +1,22 @@
+name: pin-github-actions script-vs-instructions
+evals:
+  - ./eval.yaml
+vary:
+  - /environment/skills
+baseline: skill-only-baseline
+
+variants:
+  scripted-main:
+    environment:
+      skills:
+        - ../../../plugins/security/skills/pin-github-actions
+  skill-only-baseline:
+    environment:
+      skills:
+        - ../../../.worktrees/experiments-baseline/plugins/security/skills/pin-github-actions
+overrides:
+  runs: 3
+  timeout: 5m
+
+execution:
+  workers: 1

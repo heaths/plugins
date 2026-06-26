@@ -12,19 +12,16 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install vally
-        run: npm install -g @microsoft/vally-cli@0.6.0
-
-      - name: Install copilot CLI
-        run: npm install -g @github/copilot@1.0.65
+      - name: Install pinned CLI dependencies
+        run: npm ci
 
       - name: Lint eval specs
-        run: vally lint --eval-spec evals
+        run: npx vally lint --eval-spec evals
 
       - name: Run evals
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
-        run: vally eval --suite pr --output-dir vally-results --junit
+        run: npx vally eval --suite pr --output-dir vally-results --junit
 
       - name: Upload eval results
         if: always()

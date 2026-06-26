@@ -1,3 +1,7 @@
+# Node
+node_modules/
+.worktrees/
+
 # Python
 **/.venv/
 **/__pycache__/
@@ -5,4 +9,5 @@
 **/*.pyo
 
 # Vally
+vally-experiment-results/
 vally-results/
