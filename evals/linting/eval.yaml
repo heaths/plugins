@@ -1,10 +1,15 @@
 name: linting skills evals
 version: 1
 description: Evaluates the linting plugin skills against representative file fixes
+tags:
+  priority: p0
 
 defaults:
   runs: 1
   timeout: 5m
+
+scoring:
+  threshold: 1.0
 
 stimuli:
   - name: check-spelling-fixes-typos-and-updates-dictionary
