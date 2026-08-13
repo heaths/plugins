@@ -109,6 +109,60 @@ tokens, or cost. The baseline variant loads its skill from
 `.worktrees/experiments-baseline/`, so keep that branch available locally before
 running the comparison.
 
+## GitHub Actions authentication
+
+The eval workflow uses the short-lived `GITHUB_TOKEN` created for each workflow
+run. It grants only `contents: read` and `copilot-requests: write`; no personal
+access token (PAT) or repository secret is normally required.
+
+The workflow pins a recent `@github/copilot` version because older versions
+treated the Actions token as a user PAT and failed with an error such as:
+
+```text
+Failed to fetch PAT user login (401): GitHub returned: Bad credentials
+```
+
+If this authentication error recurs:
+
+1. Confirm that the workflow grants `copilot-requests: write` and passes
+   `${{ github.token }}` as `GITHUB_TOKEN`.
+2. Confirm with an organization owner that **Allow use of Copilot CLI billed to
+   the organization** is enabled.
+3. Install the dependencies from the lockfile and confirm the pinned CLI is
+   current:
+
+   ```sh
+   npm ci
+   npx copilot --version
+   ```
+
+4. Re-run the failed workflow:
+
+   ```sh
+   gh run rerun <run-id> --failed --repo heaths/plugins
+   ```
+
+### PAT fallback
+
+Use a PAT only when the organization policy cannot be enabled. Create a
+fine-grained PAT owned by your personal account with the **Copilot Requests**
+account permission set to **Read**. Classic PATs (`ghp_`) are not supported.
+These evals do not need repository permissions on that PAT because checkout
+uses the workflow's `GITHUB_TOKEN`.
+
+PAT creation, permission selection, and organization approval cannot be done
+with `gh`; use the
+[fine-grained PAT form](https://github.com/settings/personal-access-tokens/new?name=Copilot+requests+token&user_copilot_requests=read).
+After creating the token, `gh` can store it as the Actions secret expected by
+the fallback workflow:
+
+```sh
+gh secret set COPILOT_GITHUB_TOKEN --repo heaths/plugins
+```
+
+Do not add this secret unless the workflow is also changed to pass it as
+`COPILOT_GITHUB_TOKEN`, which takes precedence over `GITHUB_TOKEN`.
+
 ## More information
 
 See the [Vally documentation](https://microsoft.github.io/vally/) for the full eval, suite, and experiment reference.
