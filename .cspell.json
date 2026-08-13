@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/v10.0.1/cspell.schema.json",
+  "language": "en",
+  "useGitignore": true,
+  "words": [
+    "evals",
+    "vally",
+    "worktree",
+    "worktrees"
+  ]
+}
